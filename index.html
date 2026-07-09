@@ -3,78 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Film Platformumuz</title>
+    <title>SinePlatform - Film İzle</title>
     <style>
-        /* Genel Sayfa Düzeni */
+        /* Modern Karanlık Tema Tasarımı */
         body {
-            background-color: #141414;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0d0e12;
+            color: #e2e8f0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
 
         header {
-            background-color: #000000;
-            padding: 20px;
+            background: linear-gradient(180deg, #161920 0%, #0d0e12 100%);
+            padding: 25px 20px;
             text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: #E50914; /* Netflix kırmızısı tarzı */
+            font-size: 28px;
+            font-weight: 800;
+            color: #38bdf8; /* Modern neon mavi tonu */
+            letter-spacing: 2px;
+            border-bottom: 1px solid #1e293b;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        /* Reklam Alanları */
+        /* Reklam Alanı Tasarımı */
         .reklam-alani {
-            background-color: #222;
+            background-color: #161920;
             text-align: center;
-            padding: 15px;
+            padding: 20px;
             margin: 20px 0;
-            border: 1px dashed #555;
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            color: #64748b;
+            font-size: 14px;
         }
 
-        /* Film Grid Sistemi */
+        h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #f1f5f9;
+            border-left: 4px solid #38bdf8;
+            padding-left: 10px;
+        }
+
+        /* Film Seçim Listesi (Grid) */
         .film-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
 
-        .film-kartı {
-            background-color: #1f1f1f;
-            border-radius: 8px;
+        .film-kart {
+            background-color: #161920;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
             overflow: hidden;
-            transition: transform 0.2s;
             cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-        .film-kartı:hover {
-            transform: scale(1.05);
+        .film-kart:hover {
+            transform: translateY(-5px);
+            border-color: #38bdf8;
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.1);
         }
 
-        .film-resmi {
+        .film-afis-kapsayici {
+            position: relative;
             width: 100%;
-            height: 300px;
+            height: 320px;
+            background-color: #000;
+        }
+
+        .film-afis {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
 
-        .film-adi {
-            padding: 10px;
-            text-align: center;
+        /* Dublaj ve Altyazı Etiketleri */
+        .film-etiketler {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .etiket {
+            font-size: 11px;
             font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .dublaj { background-color: #ef4444; color: white; }
+        .altyazi { background-color: #eab308; color: #000; }
+
+        .film-bilgi {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .film-baslik {
             font-size: 16px;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin: 0;
+        }
+
+        /* Gizli Detay Alanı (Tıklayınca Açılan Panel) */
+        .izleme-paneli {
+            display: none; /* Başlangıçta gizli */
+            background-color: #161920;
+            border: 1px solid #1e293b;
+            border-radius: 14px;
+            padding: 25px;
+            margin-top: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* Video Oynatıcı Bölümü (16:9 Oranında Kaliteli Görünüm) */
+        .video-kapsayici {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+
+        .video-kapsayici iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Özet Alanı */
+        .film-ozet-alani {
+            background-color: #0d0e12;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 3px solid #38bdf8;
+        }
+
+        .film-ozet-baslik {
+            font-size: 18px;
+            font-weight: bold;
+            color: #38bdf8;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .film-ozet-metni {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #94a3b8;
+            margin: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
     <header>
-        🎬 SİNEMA PLATFORMU
+        SINEPLATFORM
     </header>
-    
+
+    <div class="container">
+
+        <!-- ÜST REKLAM ALANI -->
+        <div class="reklam-alani">
+            <!-- REKLAM KODUNU BURAYA YAPIŞTIRABİLİRSİN KANKA -->
+            <div>[Üst Reklam Alanı - Buraya Reklam Kodları Gelecek]</div>
+        </div>
+
+        <h2>Popüler Filmler</h2>
+
+        <!-- ANA MENÜ / FİLM LİSTESİ -->
+        <div class="film-grid">
+
+            <!-- Transformers 1 Kartı -->
+            <div class="film-kart" onclick="filmAc()">
+                <div class="film-afis-kapsayici">
+                    <!-- Buraya kaliteli bir Transformers afiş linki koydum kanka -->
+                    <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=500" alt="Transformers 1" class="film-afis">
+                    
+                    <!-- Dublaj - Altyazı Seçenekleri Ana Menüde -->
+                    <div class="film-etiketler">
+                        <span class="etiket dublaj">TR Dublaj</span>
+                        <span class="etiket altyazi">Altyazılı</span>
+                    </div>
+                </div>
+                <div class="film-bilgi">
+                    <p class="film-baslik">Transformers 1</p>
+                </div>
+            </div>
+
+            <!-- Yeni filmleri de aynı bu taslakta alta ekleyebiliriz kanka -->
+
+        </div>
+
+        <!-- SİNEMA MODU / OYNATICI VE ÖZET ALANI (TIKLAYINCA AÇILIR) -->
+        <div id="izlemePaneli" class="izleme-paneli">
+            <h3 id="panelFilmBaslik" style="margin-top:0; margin-bottom: 15px; font-size: 22px;">Transformers 1 - İzle</h3>
+            
+            <!-- Video Player -->
+            <div class="video-kapsayici">
+                <!-- Senin verdiğin iframe kodunu tam buraya entegre ettim -->
+                <iframe data-src="https://rapidvid.net/vod/v1xaf569486" width="100%" height="100%" marginwidth="0" marginheight="0" frameborder="0" scrolling="no" loading="lazy" allow="fullscreen; autoplay; picture-in-picture" allowfullscreen="" src="https://rapidvid.net/vod/v1xaf569486"></iframe>
+            </div>
+
+            <!-- Özet Alanı -->
+            <div class="film-ozet-alani">
+                <p class="film-ozet-baslik">Film Özeti</p>
+                <p class="film-ozet-metni">
+                    Uzaydan gelen iki farklı robot ırkı olan Autobotlar ve Decepticonlar arasındaki kadim savaş, dünyamıza taşınır. Genç Sam Witwicky, sıradan bir gençken insanlığın geleceğini kurtaracak olan anahtarın kendisinde olduğunu fark eder. Dev robotların gizemli dünyasına adım atacağınız aksiyon dolu ilk macera!
+                </p>
+            </div>
+        </div>
+
+        <!-- ALT REKLAM ALANI -->
+        <div class="reklam-alani">
+            <!-- REKLAM KODUNU BURAYA YAPIŞTIRABİLİRSİN KANKA -->
+            <div>[Alt Reklam Alanı - Buraya Reklam Kodları Gelecek]</div>
+        </div>
+
+    </div>
+
+    <!-- Filme tıklayınca oynatıcının açılmasını sağlayan ufak JavaScript kodu -->
+    <script>
+        function filmAc() {
+            var panel = document.getElementById("izlemePaneli");
+            panel.style.display = "block";
+            // Sayfayı otomatik olarak oynatıcının olduğu yere yumuşakça kaydırır
+            panel.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
