@@ -3,50 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Log Sayfası</title>
+    <title>Film Platformumuz</title>
+    <style>
+        /* Genel Sayfa Düzeni */
+        body {
+            background-color: #141414;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #000000;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #E50914; /* Netflix kırmızısı tarzı */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Reklam Alanları */
+        .reklam-alani {
+            background-color: #222;
+            text-align: center;
+            padding: 15px;
+            margin: 20px 0;
+            border: 1px dashed #555;
+        }
+
+        /* Film Grid Sistemi */
+        .film-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .film-kartı {
+            background-color: #1f1f1f;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .film-kartı:hover {
+            transform: scale(1.05);
+        }
+
+        .film-resmi {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .film-adi {
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
 
-    <h1>Log Test Sayfası</h1>
-    <p>Butona basarak test et kanka.</p>
+    <header>
+        🎬 SİNEMA PLATFORMU
+    </header>
     
-    <button type="button" id="testButonu">Manuel Log Gönder</button>
-
-    <script>
-        // Senin form bilgilerin
-        const formURL = "https://docs.google.com/forms/d/e/1FAIpQLScst0QWA97Ilvf_-FTE5uWpTjnnJsyYJhQ5_BUErmjXIuQyPw/formResponse";
-        const entryID = "entry.236356235"; 
-
-        function logGonder(mesaj) {
-            const zaman = new Date().toLocaleString('tr-TR');
-            const tamLog = "[" + zaman + "] -> " + mesaj;
-
-            const formData = new FormData();
-            formData.append(entryID, tamLog);
-
-            fetch(formURL, {
-                method: "POST",
-                mode: "no-cors", 
-                body: formData
-            })
-            .then(function() {
-                console.log("Log başarıyla gönderildi!");
-            })
-            .catch(function(hata) {
-                console.error("Log hatası:", hata);
-            });
-        }
-
-        // Butona tıklama olayını HTML içinden değil, direkt JS içinden bağlıyoruz (Hata riskini sıfırlar)
-        document.getElementById("testButonu").addEventListener("click", function() {
-            logGonder("Kullanıcı butona tıkladı!");
-            alert("Log gönderim isteği yapıldı, şimdi Google Formu kontrol et kanka!");
-        });
-
-        // Sayfa açıldığında otomatik gönderim
-        window.onload = function() {
-            logGonder("Kullanıcı web sitesine giriş yaptı.");
-        };
-    </script>
-</body>
-</html>
