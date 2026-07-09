@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Log Sayfası</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            background-color: #f4f4f9;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Log Test Sayfası</h1>
+    <p>Bu sayfa açıldığında Google Form'a otomatik log gönderir.</p>
+    
+    <button onclick="logGonder('Kullanıcı butona tıkladı!')">Manuel Log Gönder</button>
+
+    <script>
+        // Senin form linkine göre hazırlanan gönderim adresi
+        const formURL = "https://docs.google.com/forms/d/e/1FAIpQLScst0QWA97Ilvf_-FTE5uWpTjnnJsyYJhQ5_BUErmjXIuQyPw/formResponse";
+        
+        // HTML Viewer ile bulduğun gizli input kimliği
+        const entryID = "entry.236356235"; 
+
+        function logGonder(mesaj) {
+            // Logun yanına Türkiye saatini ekliyoruz kanka
+            const zaman = new Date().toLocaleString('tr-TR');
+            const tamLog = `[${zaman}] -> ${mesaj}`;
+
+            // Veriyi forma uygun hale getiriyoruz
+            const formData = new FormData();
+            formData.append(entryID, tamLog);
+
+            // Arka planda Google Form'a postalıyoruz
+            fetch(formURL, {
+                method: "POST",
